@@ -7,14 +7,13 @@ const handleError = (res, error, statusCode = 500) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
+    const { page = 1, search = "" } = req.query;
     const limit = 20;
-    const searchQuery = req.query.search || "";
 
     const query = {
       $or: [
-        { first_name: { $regex: searchQuery, $options: "i" } },
-        { last_name: { $regex: searchQuery, $options: "i" } },
+        { first_name: { $regex: search, $options: "i" } },
+        { last_name: { $regex: search, $options: "i" } },
       ],
     };
 
@@ -28,11 +27,7 @@ const getAllUsers = async (req, res) => {
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    res.status(200).json({
-      users: users || [],
-      currentPage: page,
-      totalPages,
-    });
+    res.status(200).json({ users: users || [], currentPage: page, totalPages });
   } catch (error) {
     handleError(res, error);
   }
@@ -66,7 +61,24 @@ const createUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid user data" });
     }
 
-    const newUser = await User.create(userData);
+    // Check if the email already exists
+    const existingUser = await User.findOne({ email: userData.email });
+
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
+    // Find the latest user and get their ID
+    const latestUser = await User.findOne().sort({ id: -1 });
+
+    // Calculate the new user ID
+    const newUserId = latestUser ? latestUser.id + 1 : 1;
+
+    // Add the custom ID to the user data
+    const userWithCustomId = { ...userData, id: newUserId };
+
+    // Create the new user
+    const newUser = await User.create(userWithCustomId);
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -76,7 +88,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const { id: userId } = req.params;
     const updatedUserData = req.body;
 
     if (!userId || !updatedUserData) {
@@ -99,7 +111,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const { id: userId } = req.params;
 
     if (!userId) {
       return res.status(400).json({ error: "Invalid user ID" });
