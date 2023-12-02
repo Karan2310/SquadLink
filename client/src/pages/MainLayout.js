@@ -61,7 +61,11 @@ const MainLayout = () => {
           </div>
           <div className="col-md-8 col-lg-9 px-4 px-md-0 py-4 pe-md-3 ">
             <TopBar />
-            <button onClick={() => setCurrPage(currPage + 1)}>ok</button>
+            <div className="d-flex">
+              <button onClick={() => setCurrPage(currPage - 1)}>-</button>
+              <p>({currPage})</p>
+              <button onClick={() => setCurrPage(currPage + 1)}>+</button>
+            </div>
             <Routes>
               <Route path="/" element={<Navigate to="/members" />} />
               <Route path="/members" element={<Members />} />
