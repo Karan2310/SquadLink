@@ -49,7 +49,7 @@ export default function Login(PaperProps) {
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
-      const { data } = await axios.post(`${SERVER_URL}/auth/login`, values);
+      const { data } = await axios.post(`${SERVER_URL}/api/auth/login`, values);
       setNotificationVisible({
         title: "LoggedIn successfully",
         visible: true,

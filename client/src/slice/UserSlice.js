@@ -15,7 +15,7 @@ export const fetchUser = createAsyncThunk(
           "x-auth-token": cookies,
         },
       };
-      const response = await axios.get(`${SERVER_URL}/auth/verify`, config);
+      const response = await axios.get(`${SERVER_URL}/api/auth/verify`, config);
       dispatch(setUser(response.data));
       return response.data;
     } catch (error) {

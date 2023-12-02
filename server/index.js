@@ -3,13 +3,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
+import teamRoutes from "./routes/teams.js";
 
 const app = express();
 dotenv.config();
 
 app.use(
   cors({
-    origin: ["", "http://localhost:3000"],
+    origin: "*",
     methods: ["POST", "GET", "DELETE", "PATCH", "PUT"],
     credentials: true,
   })
@@ -18,10 +20,12 @@ app.use(
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! - SqaudLink");
 });
 
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/teams", teamRoutes);
 
 async function startServer() {
   try {
