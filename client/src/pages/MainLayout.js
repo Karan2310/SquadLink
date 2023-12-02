@@ -1,33 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Home.js";
 import SideNavigation from "../components/SideNavigation/SideNavigation.js";
 import Dashboard from "./Dashboard";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchUser, logoutUser } from "../slice/UserSlice";
+import { fetchAdmin, logoutAdmin } from "../slice/AdminSlice.js";
 import { useCookies } from "react-cookie";
 import TopBar from "../components/TopBar/TopBar.js";
+import { Navigate } from "react-router-dom";
+import Members from "./Members.js";
+import { setUser } from "../slice/UserSlice.js";
+import { SERVER_URL } from "../config.js";
+import axios from "axios";
 
 const MainLayout = () => {
   const [cookies, removeCookie] = useCookies(["token", "userId"]);
+  const [currPage, setCurrPage] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!cookies.token || !cookies.userId) {
-      removeCookie("token");
-      removeCookie("userId");
-      dispatch(logoutUser());
-      window.location.href = "/login";
-    }
-    dispatch(fetchUser(cookies.token))
-      .unwrap()
-      .catch((error) => {
-        console.error("Failed to fetch user data: ", error);
+    const fetchData = async () => {
+      if (!cookies.token || !cookies.userId) {
+        removeCookie("token");
+        removeCookie("userId");
+        dispatch(logoutAdmin());
+        window.location.href = "/login";
+      }
+
+      try {
+        await dispatch(fetchAdmin(cookies.token)).unwrap();
+      } catch (error) {
+        console.error("Failed to fetch admin data: ", error);
         navigate("/login");
-      });
-  }, [dispatch, navigate]);
+      }
+
+      try {
+        const { data } = await axios.get(
+          `${SERVER_URL}/api/users?page=${currPage}`
+        );
+        console.log(data);
+        dispatch(setUser(data));
+      } catch (error) {
+        // Handle error for user data fetching if needed
+      }
+    };
+
+    fetchData();
+  }, [currPage]);
 
   return (
     <>
@@ -41,8 +61,10 @@ const MainLayout = () => {
           </div>
           <div className="col-md-8 col-lg-9 px-4 px-md-0 py-4 pe-md-3 ">
             <TopBar />
+            <button onClick={() => setCurrPage(currPage + 1)}>ok</button>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Navigate to="/members" />} />
+              <Route path="/members" element={<Members />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </div>

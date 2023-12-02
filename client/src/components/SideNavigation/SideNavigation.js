@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./SideNavigation.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../slice/UserSlice.js";
+import { logoutAdmin } from "../../slice/AdminSlice.js";
 import { useCookies } from "react-cookie";
 
 const SideNavigation = () => {
@@ -13,7 +13,7 @@ const SideNavigation = () => {
   const handleLogout = () => {
     removeCookie("token");
     removeCookie("userId");
-    dispatch(logoutUser());
+    dispatch(logoutAdmin());
     window.location.href = "/login";
   };
 
