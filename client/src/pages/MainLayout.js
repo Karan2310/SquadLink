@@ -77,7 +77,12 @@ const MainLayout = () => {
                   <Members {...{ currPage, setCurrPage, setSearchQuery }} />
                 }
               />
-              <Route path="/teams/*" element={<Teams />} />
+              <Route
+                path="/teams/*"
+                element={
+                  <Teams {...{ currPage, setCurrPage, setSearchQuery }} />
+                }
+              />
             </Routes>
           </div>
         </div>
