@@ -12,6 +12,8 @@ import Members from "./Members.js";
 import { setUser } from "../slice/UserSlice.js";
 import { SERVER_URL } from "../config.js";
 import axios from "axios";
+import { setLoading } from "../slice/AppSclice.js";
+import { Notification } from "@mantine/core";
 
 const MainLayout = () => {
   const [cookies, removeCookie] = useCookies(["token", "userId"]);
@@ -21,6 +23,8 @@ const MainLayout = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      dispatch(setLoading(true));
+
       if (!cookies.token || !cookies.userId) {
         removeCookie("token");
         removeCookie("userId");
@@ -39,10 +43,11 @@ const MainLayout = () => {
         const { data } = await axios.get(
           `${SERVER_URL}/api/users?page=${currPage}`
         );
-        console.log(data);
         dispatch(setUser(data));
       } catch (error) {
-        // Handle error for user data fetching if needed
+        alert("Can't fetch users");
+      } finally {
+        dispatch(setLoading(false));
       }
     };
 
@@ -61,14 +66,13 @@ const MainLayout = () => {
           </div>
           <div className="col-md-8 col-lg-9 px-4 px-md-0 py-4 pe-md-3 ">
             <TopBar />
-            <div className="d-flex">
-              <button onClick={() => setCurrPage(currPage - 1)}>-</button>
-              <p>({currPage})</p>
-              <button onClick={() => setCurrPage(currPage + 1)}>+</button>
-            </div>
+
             <Routes>
               <Route path="/" element={<Navigate to="/members" />} />
-              <Route path="/members" element={<Members />} />
+              <Route
+                path="/members"
+                element={<Members {...{ currPage, setCurrPage }} />}
+              />
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </div>

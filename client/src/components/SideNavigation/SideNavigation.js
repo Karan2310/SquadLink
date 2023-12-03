@@ -19,35 +19,35 @@ const SideNavigation = () => {
 
   const navs = [
     {
-      name: "Home",
-      path: "",
-      icon: "fa-solid fa-house",
+      name: "Members",
+      path: "/members",
+      icon: "fa-solid fa-user",
     },
     {
-      name: "Dashboard",
+      name: "Teams",
       path: "/dashboard",
-      icon: "fa-solid fa-display",
+      icon: "fa-solid fa-user-group",
     },
-    {
-      name: "Trainers",
-      path: "/trainers",
-      icon: "fa-solid fa-house",
-    },
-    {
-      name: "Member Info",
-      path: "/member-info",
-      icon: "fa-solid fa-house",
-    },
-    {
-      name: "Edit Plans",
-      path: "/plans",
-      icon: "fa-solid fa-house",
-    },
-    {
-      name: "Get Invoice",
-      path: "/invoice",
-      icon: "fa-solid fa-house",
-    },
+    // {
+    //   name: "Trainers",
+    //   path: "/trainers",
+    //   icon: "fa-solid fa-house",
+    // },
+    // {
+    //   name: "Member Info",
+    //   path: "/member-info",
+    //   icon: "fa-solid fa-house",
+    // },
+    // {
+    //   name: "Edit Plans",
+    //   path: "/plans",
+    //   icon: "fa-solid fa-house",
+    // },
+    // {
+    //   name: "Get Invoice",
+    //   path: "/invoice",
+    //   icon: "fa-solid fa-house",
+    // },
   ];
 
   return (
@@ -66,10 +66,7 @@ const SideNavigation = () => {
 
       <div>
         <div className="divider my-3"></div>
-        <NavLink to="/new-member" className="navlink my-2 rounded-s ">
-          <i className="fa-solid fa-user-plus me-2 ms-2"></i>
-          <p>New Member</p>
-        </NavLink>
+
         <button
           className="logout-btn flexbox px-3 p-2 w-100 rounded-s"
           onClick={handleLogout}
