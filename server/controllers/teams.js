@@ -64,4 +64,27 @@ const getTeamById = async (req, res) => {
   }
 };
 
-export { createTeam, getAllTeams, getTeamById };
+const deleteTeamById = async (req, res) => {
+  try {
+    const teamId = req.params.id;
+
+    if (!teamId) {
+      return res.status(400).json({ error: "Invalid team ID" });
+    }
+
+    // Check if the team with the given ID exists
+    const existingTeam = await Team.findById(teamId);
+    if (!existingTeam) {
+      return res.status(404).json({ error: "Team not found" });
+    }
+
+    // Delete the team
+    await Team.findByIdAndDelete(teamId);
+
+    res.status(200).json({ message: "Team deleted successfully" });
+  } catch (error) {
+    handleError(res, error);
+  }
+};
+
+export { createTeam, getAllTeams, getTeamById, deleteTeamById };

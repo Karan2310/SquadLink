@@ -8,11 +8,13 @@ import { SERVER_URL } from "../config.js";
 import { Pagination, ActionIcon } from "@mantine/core";
 import { Avatar } from "@mantine/core";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
+const CreateTeam = ({ currPage, setCurrPage, setSearchQuery, trigger }) => {
   const allUsers = useSelector((state) => state.users.users);
   const userLength = useSelector((state) => state.users.totalPages);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const Navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -84,14 +86,11 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
       const { data } = await axios.post(`${SERVER_URL}/api/teams`, values);
       alert("Team added successfully");
 
-      // Reset the form
       form.reset();
-
-      // Deselect all selected members
       setSelectedMembers([]);
       form.setFieldValue("members", []);
-
-      console.log(data);
+      trigger();
+      Navigate("/teams");
     } catch (error) {
       console.log(error);
       alert(error.response.data.error);
@@ -144,8 +143,12 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col">ID</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
+                        <th scope="col" style={{ whiteSpace: "nowrap" }}>
+                          First Name
+                        </th>
+                        <th scope="col" style={{ whiteSpace: "nowrap" }}>
+                          Last Name
+                        </th>
                         <th scope="col">Domain</th>
                         <th scope="col">Email</th>
                         <th scope="col">Status</th>

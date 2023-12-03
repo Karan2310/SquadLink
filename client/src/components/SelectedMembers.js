@@ -1,4 +1,5 @@
 import React from "react";
+import { Avatar } from "@mantine/core";
 
 const SelectedMembers = ({ form }) => {
   const members = form.values.members;
@@ -22,9 +23,14 @@ const SelectedMembers = ({ form }) => {
         <table className="table mt-3 table-hover">
           <thead>
             <tr>
+              <th scope="col"></th>
               <th scope="col">ID</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
+              <th scope="col" style={{ whiteSpace: "nowrap" }}>
+                First Name
+              </th>
+              <th scope="col" style={{ whiteSpace: "nowrap" }}>
+                Last Name
+              </th>
               <th scope="col">Domain</th>
               <th scope="col">Email</th>
             </tr>
@@ -34,6 +40,15 @@ const SelectedMembers = ({ form }) => {
               members.map((e) => {
                 return (
                   <tr>
+                    <th scope="row">
+                      <Avatar
+                        src={e.avatar}
+                        size={30}
+                        alt={e.first_name}
+                        color="blue"
+                        variant="transparent"
+                      />
+                    </th>
                     <th scope="row">{e.id}</th>
                     <td>{e.first_name}</td>
                     <td>{e.last_name}</td>
