@@ -33,7 +33,7 @@ const AllTeams = ({ teams, trigger }) => {
 
   return (
     <div>
-      <div className="container-fluid">
+      <div className="container-fluid pb-5">
         <div className="row gy-4">
           {teams &&
             teams.map((team) => {

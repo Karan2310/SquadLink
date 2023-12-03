@@ -28,26 +28,6 @@ const SideNavigation = () => {
       path: "/teams",
       icon: "fa-solid fa-user-group",
     },
-    // {
-    //   name: "Trainers",
-    //   path: "/trainers",
-    //   icon: "fa-solid fa-house",
-    // },
-    // {
-    //   name: "Member Info",
-    //   path: "/member-info",
-    //   icon: "fa-solid fa-house",
-    // },
-    // {
-    //   name: "Edit Plans",
-    //   path: "/plans",
-    //   icon: "fa-solid fa-house",
-    // },
-    // {
-    //   name: "Get Invoice",
-    //   path: "/invoice",
-    //   icon: "fa-solid fa-house",
-    // },
   ];
 
   return (

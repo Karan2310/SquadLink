@@ -88,7 +88,7 @@ const Members = ({ currPage, setCurrPage, setSearchQuery }) => {
   return (
     <div className="container-fluid">
       <div
-        className="container-fluid bg-white w-100 p-3  mb-3  d-flex align-items-center"
+        className="container-fluid bg-white w-100 p-3 mb-3 px-4  d-flex align-items-center"
         style={{ fontSize: "0.9rem", borderRadius: "10px" }}
       >
         <i class="fa-solid fa-magnifying-glass me-2"></i>

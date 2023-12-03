@@ -1,25 +1,25 @@
 import React from "react";
 import "./TopBar.css";
-const TopBar = () => {
+const TopBar = ({ ToggleMenu }) => {
   return (
     <>
       <div className="topbar container-fluid mb-3 p-2 px-md-3">
         <div className="row w-100 flexbox">
-          <div className="col-9 col-md-10">
+          <div className="col-9 col-md-10 d-flex align-items-center ">
+            <i
+              onClick={ToggleMenu}
+              className="fa-solid fa-bars me-3 d-block d-md-none py-2"
+              style={{
+                fontSize: "1.2rem",
+                cursor: "pointer",
+              }}
+            ></i>
             <p className="fw-bold title">SquadLink</p>
           </div>
           <div
             className="col-3 col-md-2"
             style={{ display: "flex", justifyContent: "end" }}
-          >
-            <div className="avatar">
-              <img
-                className="img-fluid"
-                src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png"
-                alt="user"
-              />
-            </div>
-          </div>
+          ></div>
         </div>
       </div>
     </>
