@@ -34,7 +34,6 @@ const ProfileCard = ({ user }) => {
     <Paper
       opacity={user.available ? "1" : "0.7"}
       radius="md"
-      withBorder
       p="lg"
       bg="white"
       style={{ position: "relative" }}
@@ -58,7 +57,7 @@ const ProfileCard = ({ user }) => {
         style={{
           position: "absolute",
           top: "10px",
-          right: "10px",
+          right: "12px",
           fontSize: "8px",
         }}
       >

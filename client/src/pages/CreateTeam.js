@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput, Checkbox, Button, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSelector } from "react-redux";
 import SelectedMembers from "../components/SelectedMembers";
 import axios from "axios";
 import { SERVER_URL } from "../config.js";
-import { Pagination } from "@mantine/core";
+import { Pagination, ActionIcon } from "@mantine/core";
+import { Avatar } from "@mantine/core";
+import { NavLink } from "react-router-dom";
 
 const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
   const allUsers = useSelector((state) => state.users.users);
@@ -96,12 +98,24 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
     }
   };
 
+  useEffect(() => {
+    setCurrPage(1);
+    setSearchQuery("");
+  }, []);
+
   return (
     <div className="container-fluid">
       <div className="row gy-3">
         <div className="col-md-6 col-lg-8">
           <div className="container-fluid c-team rounded bg-white p-3 h-100">
-            <h3>Create Team</h3>
+            <div className="d-flex align-items-center">
+              <NavLink to="/teams" style={{ textDecoration: "none" }}>
+                <ActionIcon variant="outline" aria-label="Back" color="blue">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </ActionIcon>
+              </NavLink>{" "}
+              <h3 className="ms-3">Create Team</h3>
+            </div>
             <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
               <TextInput
                 className="my-3"
@@ -116,7 +130,7 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
                 <TextInput
                   onChange={handleSearchChange}
                   placeholder="Search Members"
-                  className="mb-2 mb-lg-0" // Adds margin bottom only on small screens
+                  className="mb-2 mb-lg-0"
                 />
               </div>
               <div
@@ -127,6 +141,7 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
                   <table className="table table-hover">
                     <thead>
                       <tr>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col">ID</th>
                         <th scope="col">First</th>
@@ -146,7 +161,7 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
                               style={{
                                 cursor: "pointer",
                                 // background: !e.available ? "#ECECEC" : "",
-                                opacity: !e.available ? "0.4" : "1",
+                                opacity: !e.available ? "0.3" : "1",
                               }}
                             >
                               <td>
@@ -155,6 +170,14 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
                                   readOnly
                                 />
                               </td>
+                              <th scope="row">
+                                <Avatar
+                                  src={e.avatar}
+                                  alt={e.first_name}
+                                  color="blue"
+                                  variant="transparent"
+                                />
+                              </th>
                               <th scope="row">{e.id}</th>
                               <td>{e.first_name}</td>
                               <td>{e.last_name}</td>
@@ -179,7 +202,7 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery }) => {
               </div>
 
               <Group justify="flex-end" mt="md">
-                <Button type="submit">Create Team</Button>
+                <Button type="submit">Submit</Button>
               </Group>
             </form>
           </div>
