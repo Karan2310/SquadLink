@@ -57,3 +57,4 @@ Explore the [Live Demo](https://squad-link-beta.vercel.app/) to see SquadLink in
 <div align="center">
   </div>
 </div>
+
