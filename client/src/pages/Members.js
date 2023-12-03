@@ -82,7 +82,10 @@ const Members = ({ currPage, setCurrPage, setSearchQuery }) => {
 
   return (
     <div className="container-fluid">
-      <div className="container-fluid bg-white w-100 p-3 mb-3 rounded-s d-flex align-items-center">
+      <div
+        className="container-fluid bg-white w-100 p-3  mb-3  d-flex align-items-center"
+        style={{ fontSize: "0.9rem", borderRadius: "1rem" }}
+      >
         <i class="fa-solid fa-magnifying-glass me-2"></i>
         <input
           placeholder="Search Member"
@@ -111,8 +114,8 @@ const Members = ({ currPage, setCurrPage, setSearchQuery }) => {
         onClick={open}
         style={{
           position: "fixed",
-          right: "50px",
-          bottom: "50px",
+          right: "40px",
+          bottom: "40px",
           background: "#228BE6",
           color: "#fff",
           height: "60px",

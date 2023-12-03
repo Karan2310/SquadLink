@@ -21,8 +21,8 @@ const MainLayout = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const url = `${SERVER_URL}/api/users?page=${currPage}&${
-    searchQuery.trim !== "" ? `search=${searchQuery}` : ""
+  const url = `${SERVER_URL}/api/users?page=${currPage}${
+    searchQuery.trim() !== "" ? `&search=${searchQuery}` : ""
   }`;
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const MainLayout = () => {
                   <Members {...{ currPage, setCurrPage, setSearchQuery }} />
                 }
               />
-              <Route path="/teams" element={<Teams />} />
+              <Route path="/teams/*" element={<Teams />} />
             </Routes>
           </div>
         </div>

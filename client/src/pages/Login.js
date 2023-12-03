@@ -73,7 +73,7 @@ export default function Login(PaperProps) {
         Navigate("/");
       }, 1000);
     } catch (err) {
-      console.log(err.response);
+      console.log(err);
       setNotificationVisible({
         title: "Something went wrong",
         visible: true,
