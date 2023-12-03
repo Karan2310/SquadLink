@@ -16,7 +16,7 @@
 
 .navigation .navlink.active,
 .navigation .navlink.active:hover {
-    background-color: var(--main-color);
+    background-color: rgb(34, 139, 230);
     color: #fff;
 }
 

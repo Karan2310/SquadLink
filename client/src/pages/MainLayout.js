@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import SideNavigation from "../components/SideNavigation/SideNavigation.js";
-import Dashboard from "./Dashboard";
+import Teams from "./Teams.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchAdmin, logoutAdmin } from "../slice/AdminSlice.js";
@@ -18,8 +18,12 @@ import { Notification } from "@mantine/core";
 const MainLayout = () => {
   const [cookies, removeCookie] = useCookies(["token", "userId"]);
   const [currPage, setCurrPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const url = `${SERVER_URL}/api/users?page=${currPage}&${
+    searchQuery.trim !== "" ? `search=${searchQuery}` : ""
+  }`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,9 +44,7 @@ const MainLayout = () => {
       }
 
       try {
-        const { data } = await axios.get(
-          `${SERVER_URL}/api/users?page=${currPage}`
-        );
+        const { data } = await axios.get(url);
         dispatch(setUser(data));
       } catch (error) {
         alert("Can't fetch users");
@@ -52,7 +54,7 @@ const MainLayout = () => {
     };
 
     fetchData();
-  }, [currPage]);
+  }, [currPage, searchQuery]);
 
   return (
     <>
@@ -71,9 +73,11 @@ const MainLayout = () => {
               <Route path="/" element={<Navigate to="/members" />} />
               <Route
                 path="/members"
-                element={<Members {...{ currPage, setCurrPage }} />}
+                element={
+                  <Members {...{ currPage, setCurrPage, setSearchQuery }} />
+                }
               />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/teams" element={<Teams />} />
             </Routes>
           </div>
         </div>

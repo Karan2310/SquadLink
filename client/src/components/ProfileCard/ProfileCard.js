@@ -40,13 +40,14 @@ const ProfileCard = ({ user }) => {
       style={{ position: "relative" }}
     >
       <Badge
-        color="dark"
         radius={6}
         style={{
           position: "absolute",
           top: "10px",
           left: "10px",
           fontSize: "12px",
+          background: "#000",
+          color: "#fff",
         }}
       >
         ID: {user.id}
@@ -78,7 +79,8 @@ const ProfileCard = ({ user }) => {
       </Text>
 
       <Button
-        variant="default"
+        variant="outline"
+        color="red"
         fullWidth
         mt="md"
         onClick={() => {

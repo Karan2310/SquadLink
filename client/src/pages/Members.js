@@ -11,7 +11,7 @@ import { setLoading } from "../slice/AppSclice.js";
 import { updateUsers } from "../slice/UserSlice.js";
 import { useDispatch } from "react-redux";
 
-const Members = ({ currPage, setCurrPage }) => {
+const Members = ({ currPage, setCurrPage, setSearchQuery }) => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [opened, { open, close }] = useDisclosure(false);
@@ -54,6 +54,16 @@ const Members = ({ currPage, setCurrPage }) => {
     window.scrollTo(0, 0);
   };
 
+  let searchTimeout;
+
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+
+    searchTimeout = setTimeout(() => {
+      setSearchQuery(e.target.value);
+    }, 500);
+  };
+
   const handleSubmit = async (values) => {
     dispatch(setLoading(true));
     try {
@@ -64,7 +74,7 @@ const Members = ({ currPage, setCurrPage }) => {
       close();
     } catch (error) {
       console.error(error);
-      alert("eoo");
+      alert("Error");
     } finally {
       dispatch(setLoading(false));
     }
@@ -72,6 +82,15 @@ const Members = ({ currPage, setCurrPage }) => {
 
   return (
     <div className="container-fluid">
+      <div className="container-fluid bg-white w-100 p-3 mb-3 rounded-s d-flex align-items-center">
+        <i class="fa-solid fa-magnifying-glass me-2"></i>
+        <input
+          placeholder="Search Member"
+          type="text"
+          style={{ width: "100%", outline: "none", border: 0 }}
+          onChange={handleSearchChange}
+        />
+      </div>
       <div className="row gy-4">
         {users.users &&
           users.users.map((user) => (
@@ -80,7 +99,7 @@ const Members = ({ currPage, setCurrPage }) => {
             </div>
           ))}
       </div>
-      <div className="container w-100 d-flex justify-content-center mt-5">
+      <div className="container w-100 d-flex justify-content-center my-5">
         <Pagination
           total={users.totalPages}
           value={currPage}
@@ -101,6 +120,9 @@ const Members = ({ currPage, setCurrPage }) => {
           borderRadius: "50%",
           border: 0,
           fontSize: "1.5rem",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <i className="fa-solid fa-plus"></i>
