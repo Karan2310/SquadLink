@@ -133,10 +133,11 @@ const MainLayout = () => {
                     {...{
                       currPage,
                       setCurrPage,
+                      setSearchQuery,
                       setSearchDomain,
                       setSearchGender,
                       setSearchAvailable,
-                      setSearchQuery,
+                      triggerUser,
                       searchDomain,
                       searchGender,
                       searchAvailable,

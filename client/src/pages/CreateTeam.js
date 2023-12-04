@@ -9,12 +9,35 @@ import { Pagination, ActionIcon } from "@mantine/core";
 import { Avatar } from "@mantine/core";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+const { MultiSelect } = require("@mantine/core");
 
-const CreateTeam = ({ currPage, setCurrPage, setSearchQuery, trigger }) => {
+const CreateTeam = ({
+  currPage,
+  setCurrPage,
+  setSearchQuery,
+  setSearchDomain,
+  setSearchGender,
+  setSearchAvailable,
+  triggerUser,
+  searchDomain,
+  searchGender,
+  searchAvailable,
+  trigger,
+}) => {
   const allUsers = useSelector((state) => state.users.users);
   const userLength = useSelector((state) => state.users.totalPages);
   const [selectedMembers, setSelectedMembers] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
   const Navigate = useNavigate();
+  const domains = [
+    "Sales",
+    "Finance",
+    "IT",
+    "Marketing",
+    "UI Designing",
+    "Management",
+    "Business Development",
+  ];
 
   const form = useForm({
     initialValues: {
@@ -29,6 +52,22 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery, trigger }) => {
   const handlePaginationChange = (newPage) => {
     setCurrPage(newPage);
     window.scrollTo(0, 0);
+  };
+
+  const handleDomainChange = (selectedValues) => {
+    setSearchDomain(selectedValues);
+  };
+
+  const handleGenderChange = (selectedValues) => {
+    setSearchGender(selectedValues);
+  };
+
+  const handleAvailableChange = (selectedValues) => {
+    setSearchAvailable(selectedValues);
+  };
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
   };
 
   const handleCheckboxChange = (user) => {
@@ -77,6 +116,10 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery, trigger }) => {
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
+      setSearchDomain([]);
+      setSearchGender([]);
+      setSearchAvailable([]);
+      setShowFilters(false);
       setSearchQuery(e.target.value);
     }, 500);
   };
@@ -100,6 +143,9 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery, trigger }) => {
   useEffect(() => {
     setCurrPage(1);
     setSearchQuery("");
+    setSearchDomain([]);
+    setSearchGender([]);
+    setSearchAvailable([]);
   }, []);
 
   return (
@@ -132,6 +178,45 @@ const CreateTeam = ({ currPage, setCurrPage, setSearchQuery, trigger }) => {
                   className="mb-2 mb-lg-0"
                 />
               </div>
+              <Button
+                variant="filled"
+                onClick={toggleFilters}
+                size="xs"
+                style={{ marginTop: "-1rem" }}
+              >
+                {showFilters ? "Hide Filters" : "Show Filters"}
+              </Button>
+              {showFilters && (
+                <div className="d-flex flex-column flex-lg-row align-items-center overflow-auto mb-2">
+                  <MultiSelect
+                    className="w-100 mt-2"
+                    label="Domain"
+                    placeholder="Select Domain"
+                    data={domains}
+                    onChange={handleDomainChange}
+                    value={searchDomain}
+                  />
+                  <MultiSelect
+                    className="w-100 mt-2 mx-2"
+                    label="Gender"
+                    placeholder="Select Gender"
+                    data={["Male", "Female"]}
+                    onChange={handleGenderChange}
+                    value={searchGender}
+                  />
+                  <MultiSelect
+                    className="w-100 mt-2"
+                    label="Availability"
+                    placeholder="Select Availability"
+                    data={[
+                      { value: true, label: "Yes" },
+                      { value: false, label: "No" },
+                    ]}
+                    onChange={handleAvailableChange}
+                    value={searchAvailable}
+                  />
+                </div>
+              )}
               <div
                 className="container-fluid p-0 "
                 style={{ overflow: "auto", height: "55vh" }}

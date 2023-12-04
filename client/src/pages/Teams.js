@@ -5,7 +5,18 @@ import CreateTeam from "./CreateTeam";
 import axios from "axios";
 import { SERVER_URL } from "../config";
 
-const Teams = ({ currPage, setCurrPage, setSearchQuery }) => {
+const Teams = ({
+  currPage,
+  setCurrPage,
+  setSearchQuery,
+  setSearchDomain,
+  setSearchGender,
+  setSearchAvailable,
+  triggerUser,
+  searchDomain,
+  searchGender,
+  searchAvailable,
+}) => {
   const [teams, setTeams] = useState([]);
   const [fetchTrigger, setFetchTrigger] = useState();
   const fetchTeams = async () => {
@@ -33,7 +44,19 @@ const Teams = ({ currPage, setCurrPage, setSearchQuery }) => {
           path="/create-team"
           element={
             <CreateTeam
-              {...{ currPage, setCurrPage, setSearchQuery, trigger }}
+              {...{
+                currPage,
+                setCurrPage,
+                setSearchQuery,
+                setSearchDomain,
+                setSearchGender,
+                setSearchAvailable,
+                triggerUser,
+                searchDomain,
+                searchGender,
+                searchAvailable,
+                trigger,
+              }}
             />
           }
         />
