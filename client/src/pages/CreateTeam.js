@@ -116,6 +116,7 @@ const CreateTeam = ({
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
+      setCurrPage(1);
       setSearchDomain([]);
       setSearchGender([]);
       setSearchAvailable([]);
