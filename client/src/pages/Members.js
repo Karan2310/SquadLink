@@ -126,8 +126,13 @@ const Members = ({
         <div className="row w-100 d-flex align-items-center justify-content-between m-0">
           <div className="col-8 col-md-9 col-lg-10 p-0">
             <div
-              className="container-fluid bg-white  p-3 mb-3 px-4  d-flex align-items-center ms-0"
-              style={{ fontSize: "0.9rem", borderRadius: "10px" }}
+              className="container-fluid bg-white   mb-3 px-4  d-flex align-items-center ms-0"
+              style={{
+                fontSize: "0.9rem",
+                borderRadius: "10px",
+                paddingTop: "0.7rem",
+                paddingBottom: "0.7rem",
+              }}
             >
               <i className="fa-solid fa-magnifying-glass me-2"></i>
               <input
