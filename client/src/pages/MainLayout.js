@@ -21,6 +21,7 @@ const MainLayout = () => {
   const [currPage, setCurrPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [fetchUserTrigger, setfetchUserTrigger] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const url = `${SERVER_URL}/api/users?page=${currPage}${
@@ -29,6 +30,10 @@ const MainLayout = () => {
 
   const ToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const triggerUser = () => {
+    setfetchUserTrigger(!fetchUserTrigger);
   };
 
   useEffect(() => {
@@ -60,7 +65,7 @@ const MainLayout = () => {
     };
 
     fetchData();
-  }, [currPage, searchQuery]);
+  }, [currPage, searchQuery, fetchUserTrigger]);
 
   return (
     <>
@@ -84,7 +89,9 @@ const MainLayout = () => {
               <Route
                 path="/members"
                 element={
-                  <Members {...{ currPage, setCurrPage, setSearchQuery }} />
+                  <Members
+                    {...{ currPage, setCurrPage, setSearchQuery, triggerUser }}
+                  />
                 }
               />
               <Route

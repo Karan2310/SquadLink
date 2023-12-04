@@ -11,7 +11,7 @@ import { setLoading } from "../slice/AppSclice.js";
 import { updateUsers } from "../slice/UserSlice.js";
 import { useDispatch } from "react-redux";
 
-const Members = ({ currPage, setCurrPage, setSearchQuery }) => {
+const Members = ({ currPage, setCurrPage, setSearchQuery, triggerUser }) => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [opened, { open, close }] = useDisclosure(false);
@@ -103,7 +103,7 @@ const Members = ({ currPage, setCurrPage, setSearchQuery }) => {
         {users.users &&
           users.users.map((user) => (
             <div key={user.id} className="col-12 col-md-6 col-lg-4">
-              <ProfileCard user={user} />
+              <ProfileCard user={user} triggerUser={triggerUser} />
             </div>
           ))}
       </div>
