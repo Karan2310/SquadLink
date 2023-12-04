@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileCard from "../components/ProfileCard/ProfileCard.js";
 import { Pagination } from "@mantine/core";
@@ -10,11 +10,24 @@ import { SERVER_URL } from "../config.js";
 import { setLoading } from "../slice/AppSclice.js";
 import { updateUsers } from "../slice/UserSlice.js";
 import { useDispatch } from "react-redux";
+const { MultiSelect } = require("@mantine/core");
 
-const Members = ({ currPage, setCurrPage, setSearchQuery, triggerUser }) => {
+const Members = ({
+  currPage,
+  setCurrPage,
+  setSearchQuery,
+  triggerUser,
+  setSearchDomain,
+  setSearchGender,
+  setSearchAvailable,
+  searchDomain,
+  searchGender,
+  searchAvailable,
+}) => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [opened, { open, close }] = useDisclosure(false);
+  const [showFilters, setShowFilters] = useState(false);
   const domains = [
     "Sales",
     "Finance",
@@ -49,6 +62,18 @@ const Members = ({ currPage, setCurrPage, setSearchQuery, triggerUser }) => {
     },
   });
 
+  const handleDomainChange = (selectedValues) => {
+    setSearchDomain(selectedValues);
+  };
+
+  const handleGenderChange = (selectedValues) => {
+    setSearchGender(selectedValues);
+  };
+
+  const handleAvailableChange = (selectedValues) => {
+    setSearchAvailable(selectedValues);
+  };
+
   const handlePaginationChange = (newPage) => {
     setCurrPage(newPage);
     window.scrollTo(0, 0);
@@ -60,8 +85,15 @@ const Members = ({ currPage, setCurrPage, setSearchQuery, triggerUser }) => {
     clearTimeout(searchTimeout);
 
     searchTimeout = setTimeout(() => {
+      setSearchDomain([]);
+      setSearchGender([]);
+      setSearchAvailable([]);
       setSearchQuery(e.target.value);
     }, 500);
+  };
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
   };
 
   const handleSubmit = async (values) => {
@@ -83,22 +115,78 @@ const Members = ({ currPage, setCurrPage, setSearchQuery, triggerUser }) => {
   useEffect(() => {
     setCurrPage(1);
     setSearchQuery("");
+    setSearchDomain([]);
+    setSearchGender([]);
+    setSearchAvailable([]);
   }, []);
 
   return (
     <div className="container-fluid">
-      <div
-        className="container-fluid bg-white w-100 p-3 mb-3 px-4  d-flex align-items-center"
-        style={{ fontSize: "0.9rem", borderRadius: "10px" }}
-      >
-        <i class="fa-solid fa-magnifying-glass me-2"></i>
-        <input
-          placeholder="Search Member"
-          type="text"
-          style={{ width: "100%", outline: "none", border: 0 }}
-          onChange={handleSearchChange}
-        />
+      <div className="d-flex align-items-center justify-content-between w-100 ">
+        <div className="row w-100 d-flex align-items-center justify-content-between m-0">
+          <div className="col-8 col-md-9 col-lg-10 p-0">
+            <div
+              className="container-fluid bg-white  p-3 mb-3 px-4  d-flex align-items-center ms-0"
+              style={{ fontSize: "0.9rem", borderRadius: "10px" }}
+            >
+              <i className="fa-solid fa-magnifying-glass me-2"></i>
+              <input
+                placeholder="Search Member"
+                type="text"
+                style={{ width: "100%", outline: "none", border: 0 }}
+                onChange={handleSearchChange}
+              />
+            </div>
+          </div>
+          <div className="col-4 col-md-3 col-lg-2 d-flex justify-content-end p-0">
+            <Button
+              variant="filled"
+              onClick={toggleFilters}
+              size="xs"
+              style={{ marginTop: "-1rem" }}
+            >
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </Button>
+          </div>
+        </div>
       </div>
+      <div
+        className="mb-4 d-flex flex-column flex-md-row align-items-center justify-content-end"
+        style={{ marginTop: "-0.5rem" }}
+      >
+        {showFilters && (
+          <>
+            <MultiSelect
+              className="w-100 mt-2"
+              label="Domain"
+              placeholder="Select Domain"
+              data={domains}
+              onChange={handleDomainChange}
+              value={searchDomain}
+            />
+            <MultiSelect
+              className="w-100 mt-2 mx-2"
+              label="Gender"
+              placeholder="Select Gender"
+              data={["Male", "Female"]}
+              onChange={handleGenderChange}
+              value={searchGender}
+            />
+            <MultiSelect
+              className="w-100 mt-2"
+              label="Availability"
+              placeholder="Select Availability"
+              data={[
+                { value: true, label: "Yes" },
+                { value: false, label: "No" },
+              ]}
+              onChange={handleAvailableChange}
+              value={searchAvailable}
+            />
+          </>
+        )}
+      </div>
+
       <div className="row gy-4">
         {users.users &&
           users.users.map((user) => (

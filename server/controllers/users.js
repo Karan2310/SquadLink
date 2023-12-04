@@ -7,8 +7,15 @@ const handleError = (res, error, statusCode = 500) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const { page = 1, search = "" } = req.query;
+    const { page = 1, search = "", domain, gender, available } = req.query;
     const limit = 20;
+
+    // Convert domains, gender, and available to arrays if they are single values
+    const domains = Array.isArray(domain) ? domain : [domain].filter(Boolean);
+    const genders = Array.isArray(gender) ? gender : [gender].filter(Boolean);
+    const availableOptions = Array.isArray(available)
+      ? available
+      : [available].filter(Boolean);
 
     const query = {
       $or: [
@@ -16,6 +23,18 @@ const getAllUsers = async (req, res) => {
         { last_name: { $regex: search, $options: "i" } },
       ],
     };
+
+    if (domains.length > 0) {
+      query.domain = { $in: domains };
+    }
+
+    if (genders.length > 0) {
+      query.gender = { $in: genders };
+    }
+
+    if (availableOptions.length > 0) {
+      query.available = { $in: availableOptions };
+    }
 
     const [totalCount, users] = await Promise.all([
       User.countDocuments(query),

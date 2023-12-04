@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import SideNavigation from "../components/SideNavigation/SideNavigation.js";
 import Teams from "./Teams.js";
 import { useNavigate } from "react-router-dom";
@@ -7,33 +7,32 @@ import { useDispatch } from "react-redux";
 import { fetchAdmin, logoutAdmin } from "../slice/AdminSlice.js";
 import { useCookies } from "react-cookie";
 import TopBar from "../components/TopBar/TopBar.js";
-import { Navigate } from "react-router-dom";
-import Members from "./Members.js";
 import { setUser } from "../slice/UserSlice.js";
 import { SERVER_URL } from "../config.js";
 import axios from "axios";
 import { setLoading } from "../slice/AppSclice.js";
-import { Notification } from "@mantine/core";
 import MobileNav from "../components/MobileNav/MobileNav.js";
+import Members from "./Members.js";
 
 const MainLayout = () => {
   const [cookies, removeCookie] = useCookies(["token", "userId"]);
   const [currPage, setCurrPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchDomain, setSearchDomain] = useState(["Finance", "Management"]);
+  const [searchGender, setSearchGender] = useState(["Male", "Female"]);
+  const [searchAvailable, setSearchAvailable] = useState(["true"]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [fetchUserTrigger, setfetchUserTrigger] = useState(false);
+  const [fetchUserTrigger, setFetchUserTrigger] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const url = `${SERVER_URL}/api/users?page=${currPage}${
-    searchQuery.trim() !== "" ? `&search=${searchQuery}` : ""
-  }`;
 
   const ToggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const triggerUser = () => {
-    setfetchUserTrigger(!fetchUserTrigger);
+    setFetchUserTrigger(!fetchUserTrigger);
   };
 
   useEffect(() => {
@@ -55,18 +54,40 @@ const MainLayout = () => {
       }
 
       try {
-        const { data } = await axios.get(url);
+        const { data } = await axios.get(buildUrl());
         dispatch(setUser(data));
       } catch (error) {
-        alert("Can't fetch users");
+        console.error("Can't fetch users", error);
       } finally {
         dispatch(setLoading(false));
       }
     };
 
     fetchData();
-  }, [currPage, searchQuery, fetchUserTrigger]);
+  }, [
+    currPage,
+    searchQuery,
+    searchDomain,
+    searchAvailable,
+    searchGender,
+    fetchUserTrigger,
+  ]);
 
+  const buildUrl = () => {
+    const url = `${SERVER_URL}/api/users?page=${currPage}${
+      searchQuery.trim() !== "" ? `&search=${searchQuery}` : ""
+    }${
+      searchDomain.length > 0 ? `&domain=${searchDomain.join("&domain=")}` : ""
+    }${
+      searchGender.length > 0 ? `&gender=${searchGender.join("&gender=")}` : ""
+    }${
+      searchAvailable.length > 0
+        ? `&available=${searchAvailable.join("&available=")}`
+        : ""
+    }`;
+
+    return url;
+  };
   return (
     <>
       <div className="container-fluid p-0 m-0">
@@ -90,14 +111,37 @@ const MainLayout = () => {
                 path="/members"
                 element={
                   <Members
-                    {...{ currPage, setCurrPage, setSearchQuery, triggerUser }}
+                    {...{
+                      currPage,
+                      setCurrPage,
+                      setSearchQuery,
+                      setSearchDomain,
+                      setSearchGender,
+                      setSearchAvailable,
+                      triggerUser,
+                      searchDomain,
+                      searchGender,
+                      searchAvailable,
+                    }}
                   />
                 }
               />
               <Route
                 path="/teams/*"
                 element={
-                  <Teams {...{ currPage, setCurrPage, setSearchQuery }} />
+                  <Teams
+                    {...{
+                      currPage,
+                      setCurrPage,
+                      setSearchDomain,
+                      setSearchGender,
+                      setSearchAvailable,
+                      setSearchQuery,
+                      searchDomain,
+                      searchGender,
+                      searchAvailable,
+                    }}
+                  />
                 }
               />
             </Routes>
