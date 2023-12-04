@@ -193,6 +193,7 @@ const CreateTeam = ({
                     className="w-100 mt-2"
                     label="Domain"
                     placeholder="Select Domain"
+                    clearable
                     data={domains}
                     onChange={handleDomainChange}
                     value={searchDomain}
@@ -202,12 +203,14 @@ const CreateTeam = ({
                     label="Gender"
                     placeholder="Select Gender"
                     data={["Male", "Female"]}
+                    clearable
                     onChange={handleGenderChange}
                     value={searchGender}
                   />
                   <MultiSelect
                     className="w-100 mt-2"
                     label="Availability"
+                    clearable
                     placeholder="Select Availability"
                     data={[
                       { value: true, label: "Yes" },

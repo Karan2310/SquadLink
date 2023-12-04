@@ -167,11 +167,13 @@ const Members = ({
               label="Domain"
               placeholder="Select Domain"
               data={domains}
+              clearable
               onChange={handleDomainChange}
               value={searchDomain}
             />
             <MultiSelect
               className="w-100 mt-2 mx-2"
+              clearable
               label="Gender"
               placeholder="Select Gender"
               data={["Male", "Female"]}
@@ -180,6 +182,7 @@ const Members = ({
             />
             <MultiSelect
               className="w-100 mt-2"
+              clearable
               label="Availability"
               placeholder="Select Availability"
               data={[
