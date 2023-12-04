@@ -1,5 +1,6 @@
 # SquadLink
-<img width="1464" alt="Screenshot 2023-12-04 at 2 39 50 AM" src="https://github.com/Karan2310/SquadLink/assets/72909842/be0b67be-5ac2-4b5b-bed8-5d9eb4ad49e3">
+<img width="1464" alt="Screenshot 2023-12-04 at 4 58 35 PM" src="https://github.com/Karan2310/SquadLink/assets/72909842/664a3ada-7375-4188-baed-dc919fb7ec87">
+
 <br/>
 <br/>
 This full-stack web application is designed to allow users to view, interact, and manage a list of users. The application provides features such as user display with pagination, searching by name, applying filters, creating teams, and responsive design. The project utilizes a tech stack comprising React.js, Redux, Node.js, Express.js, MongoDB, and Mongoose.
@@ -47,7 +48,7 @@ Explore the [Live Demo](https://squad-link-beta.vercel.app/) to see SquadLink in
 ## Screenshots
 
 <div align="center">
-<img width="1464" alt="Screenshot 2023-12-04 at 2 38 18 AM" src="https://github.com/Karan2310/SquadLink/assets/72909842/df81d870-903f-44bb-bcdc-eba2a6ee543f">
+<img width="1464" alt="Screenshot 2023-12-04 at 4 40 29 PM" src="https://github.com/Karan2310/SquadLink/assets/72909842/7e18f120-e1d4-4c0e-bdc7-5fce167e3233">
 <img width="1464" alt="Screenshot 2023-12-04 at 2 41 48 AM" src="https://github.com/Karan2310/SquadLink/assets/72909842/965473b9-26a4-4f72-bde4-6e756d9545ba">
 <img width="1464" alt="Screenshot 2023-12-04 at 2 38 38 AM" src="https://github.com/Karan2310/SquadLink/assets/72909842/4627666e-ee95-465d-b4b9-fc1a60149243">
 <img width="500" alt="Screenshot 1" src="https://github.com/Karan2310/SquadLink/assets/72909842/9e5e70ce-e3b1-4cfc-881a-9554b9089661">
